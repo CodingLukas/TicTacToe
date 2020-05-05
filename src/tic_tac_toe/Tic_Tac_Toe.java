@@ -20,18 +20,15 @@ import java.util.Scanner;
  * @author Home PC
  */
 public class Tic_Tac_Toe implements Serializable {
-    static ArrayList <Integer> p1_Pos ;
-    static ArrayList <Integer> p2_Pos ;
-    static int p1_Wins;
-    static int p2_Wins;
-    static int Ties;
+    static ArrayList <Integer> p1_Pos = new ArrayList<Integer>();
+    static ArrayList <Integer> p2_Pos = new ArrayList<Integer>(); 
+    static int p1_Wins = 0;
+    static int p2_Wins = 0;
+    static int Ties = 0;
     static boolean continueGame = true;
     static char [][] gameBoard = generateFreshBoard();
     
     public static void main(String[] args) {
-        p1_Wins = 0; p2_Wins = 0; Ties = 0;                        
-        p1_Pos = new ArrayList<Integer>();
-        p2_Pos = new ArrayList<Integer>(); 
         printGameBoard();
         while(continueGame){
             read("p1");
@@ -111,7 +108,7 @@ public class Tic_Tac_Toe implements Serializable {
     public static void read(String player){
         if(!continueGame) return;
         Scanner scan = new Scanner(System.in);
-        System.out.println("P1 placement: 1-9 | SAVE fileName | LOAD fileName");
+        System.out.println("P1 placement: 1-9 | SAVE fileName | LOAD fileName | EXIT");
         System.out.println(String.format("P1 won: %s times | P2 won: %s times | Ties: %s",p1_Wins,p2_Wins,Ties));
         String text = scan.nextLine();
         
@@ -154,11 +151,11 @@ public class Tic_Tac_Toe implements Serializable {
     static void Save(String fileName){
         try (FileOutputStream f = new FileOutputStream(fileName);
             ObjectOutput s = new ObjectOutputStream(f)) {
-//            s.writeObject(Tic_Tac_Toe.p1_Pos);
-//            s.writeObject(Tic_Tac_Toe.p2_Pos);
-//            s.writeObject(Tic_Tac_Toe.p1_Wins);
-//            s.writeObject(Tic_Tac_Toe.p2_Wins);
-//            s.writeObject(Tic_Tac_Toe.Ties);
+            s.writeObject(Tic_Tac_Toe.p1_Pos);
+            s.writeObject(Tic_Tac_Toe.p2_Pos);
+            s.writeObject(Tic_Tac_Toe.p1_Wins);
+            s.writeObject(Tic_Tac_Toe.p2_Wins);
+            s.writeObject(Tic_Tac_Toe.Ties);
             s.writeObject(Tic_Tac_Toe.gameBoard);
         } catch(IOException e){
             e.printStackTrace();
@@ -167,8 +164,8 @@ public class Tic_Tac_Toe implements Serializable {
      static void Load(String fileName) {
         try (FileInputStream in = new FileInputStream(fileName);
                 ObjectInputStream s = new ObjectInputStream(in)) {
-            Tic_Tac_Toe.p1_Pos = (ArrayList) s.readObject();
-            Tic_Tac_Toe.p2_Pos = (ArrayList) s.readObject();
+            Tic_Tac_Toe.p1_Pos = (ArrayList<Integer>) s.readObject();
+            Tic_Tac_Toe.p2_Pos = (ArrayList<Integer>) s.readObject();
             Tic_Tac_Toe.p1_Wins = (Integer) s.readObject();
             Tic_Tac_Toe.p2_Wins = (Integer) s.readObject();
             Tic_Tac_Toe.Ties = (Integer) s.readObject();
